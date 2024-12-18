@@ -1,23 +1,35 @@
-
-export function index(req, res){
+import UserModel from "../models/UserModel.js";
+export async function index(req, res){
     try {
-        res.json({ user: []});
+        const user = await UserModel.select();
+        res.json({ user });
     } catch (error) {
         res.status(500).json({error: error.message});
     }
 }
 
-export function create(req, res){
+export async function show(req, res){
     try {
-        res.json({ user: {}});
+        const user = await UserModel.find(req.params.id);
+        res.json({ user });
     } catch (error) {
         res.status(500).json({error: error.message});
     }
 }
 
-export function update(req, res){
+export async function store(req, res){
+    try {
+        await UserModel.create(req.body);
+        res.json({ message: "User created successfully" });
+    } catch (error) {
+        res.status(500).json({error: error.message});
+    }
+}
+
+export async function update(req, res){
     try{
-        res.json({ user: {}});
+        await UserModel.update({ ...req.body, user_id: req.params.id });
+        res.json({ message: "User updated successfully" });
     } catch (error) {
         res.status(500).json({error: error.message});
     }
@@ -25,10 +37,11 @@ export function update(req, res){
 
 export function remove(req, res){
     try{
-        res.json({ user: {}});
+        UserModel.remove(1, req.params.id);
+        res.json({ message: "User removed successfully" });
     } catch (error){
         res.status(500).json({error: error.message});
     }
 }
 
-export default { index, create, update, remove };
+export default { index, store, update, remove };
