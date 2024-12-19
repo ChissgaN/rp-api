@@ -47,7 +47,7 @@ export async function update(status){
     }
 }
 
-export async function remove(status_id, status_id){
+export async function remove(status_id){
     try{
         const request = await pool.request();
         request.input("status_id", status_id);
@@ -56,3 +56,5 @@ export async function remove(status_id, status_id){
         throw error;
     }
 }
+
+export default { select, find, create, update, remove };

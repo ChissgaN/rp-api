@@ -18,7 +18,7 @@ export async function find(product_id) {
     const request = await pool.request();
     request.input("product_id", product_id);
     const result = await request.query(query);
-    return result.recordset;
+    return result.recordset[0];
   } catch (error) {
     throw error;
   }
