@@ -29,7 +29,7 @@ export async function create(category){
         Object.entries(category).forEach(([key, value]) => {
             request.input(key, value);
         });
-        await request.execute("sp_register_category");
+        await request.execute("sp_register_products_categories");
     } catch (err) {
         throw err;
     }
@@ -41,7 +41,7 @@ export async function update(category){
         Object.entries(category).forEach(([key, value]) => {
             request.input(key, value);
         });
-        await request.execute("sp_update_category");
+        await request.execute("sp_update_products_categories");
     } catch (error) {
         throw error;
     }
@@ -52,7 +52,7 @@ export async function remove(status_id, category_id){
         const request = await pool.request();
         request.input("status_id", status_id);
         request.input("category_id", category_id);
-        await request.eddecute("sp_update_category_status");
+        await request.eddecute("sp_upadte_products_categories_status");
     } catch (error) {
         throw error;
     }

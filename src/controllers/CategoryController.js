@@ -1,4 +1,6 @@
 import CategoryModel from "../models/CategoryModel.js";
+import { storeSchema, updateSchema } from "../libs/joi/CategoriesSchema.js";
+import joi from "joi";
 
 export async function index(req, res){
     try {
@@ -9,39 +11,48 @@ export async function index(req, res){
     }
 }
 
-export async function show(req, res){
+export async function show(req, res, next){
     try {
         const category = await CategoryModel.find(req.params.id);
-        res.json({ category });
+        if (!category) {
+            throw { message: "Category not found", status: 404 };
+        }
+        res.json(category);
     } catch (error) {
-        res.status(500).json({error: error.message});
+        next(error);
     }
 }
 
-export async function store(req, res){
+export async function store(req, res, next){
     try {
+        await storeSchema.validateAsync(req.body);
         await CategoryModel.create(req.body);
-        res.json({ category: {}});
+        res.json({ message: "Category created successfully" });
     } catch (error) {
-        res.status(500).json({error: error.message});
+        next(error);
     }
 }
 
-export async function update(req, res){
+export async function update(req, res, next){
     try{
+        await updateSchema.validateAsync(req.body);
         await CategoryModel.update({ ...req.body, category_id: req.params.id });
         res.json({ message: "Category updated successfully" });
     } catch (error) {
-        res.status(500).json({error: error.message});
+        next(error);
     }
 }
 
-export function remove(req, res){
+export function remove(req, res, next){
     try {
-        CategoryModel.remove(1, req.params.id);
+        const category = await CategoryModel.find(req.params.id);
+        if (!category) {
+            throw { message: "Category not found", status: 404 };
+        }
+        await CategoryModel.remove(1, req.params.id);
         res.json({ message: "Category removed successfully" });
     } catch (error) {
-        res.status(500).json({error: error.message});
+        next(error);
     }
 }
 
