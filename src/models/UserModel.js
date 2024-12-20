@@ -29,7 +29,7 @@ export async function create(user){
         Object.entries(user).forEach(([key, value]) => {
             request.input(key, value);
         });
-        await request.execute("sp_register_users");
+        await request.execute("sp_register_user");
     } catch (error) {
         throw error;
     }
@@ -41,7 +41,7 @@ export async function update(user){
         Object.entries(user).forEach(([key, value]) => {
             request.input(key, value);
         });
-        await request.execute("sp_update_users");
+        await request.execute("sp_update_user");
     } catch (error) {
         throw error;
     }
