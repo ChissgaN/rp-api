@@ -1,6 +1,7 @@
 import ProductsModel from "../models/ProductModel.js";
 import { storeSchema, updateSchema } from "../libs/joi/ProductsSchema.js";
 import joi from "joi";
+
 export async function index(req, res, next) {
   try {
     const products = await ProductsModel.select();

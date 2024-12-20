@@ -43,7 +43,7 @@ export async function update(req, res, next){
     }
 }
 
-export function remove(req, res, next){
+export async function remove(req, res, next){
     try {
         const category = await CategoryModel.find(req.params.id);
         if (!category) {
