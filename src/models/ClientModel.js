@@ -29,7 +29,7 @@ export async function create(client){
         Object.entries(client).forEach(([key, value]) => {
             request.input(key, value);
         });
-        await request.execute("sp_register_client");
+        await request.execute("sp_create_client");
     } catch (error) {
         throw error;
     }
