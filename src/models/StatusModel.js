@@ -29,7 +29,7 @@ export async function create(status){
         Object.entries(status).forEach(([key, value]) =>{
             request.input(key, value);
         });
-        await request.execute("sp_register_status");
+        await request.execute("sp_create_status");
     } catch (error){
         throw error;
     }
