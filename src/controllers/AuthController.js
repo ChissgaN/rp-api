@@ -23,7 +23,7 @@ export async function login(req, res, next) {
       id: user.id,
       role: user.role,
     };
-    console.log(payload);
+ 
     const token = jwt.sign(payload, appConfig.secret, {
       expiresIn: "24h",
     });

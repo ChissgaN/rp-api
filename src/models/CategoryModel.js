@@ -1,11 +1,11 @@
 import { pool } from "../libs/db_conn.js";
+import {jsonParse} from "../helpers/JsonParse.js"
 
 export async function select(){
     try{
-        const query = "SELECT * From category";
-        console.log(query);
+        const query = "SELECT * From vw_categories WHERE status_id = 1 FOR JSON PATH";
         const result = await pool.request().query(query);
-        return result.recordset;
+        return jsonParse(result);
     } catch (error) {
         throw error;
     }
@@ -13,11 +13,13 @@ export async function select(){
 
 export async function find(category_id){
     try{
-        const query = "SELECT * FROM CATEGORY WHERE id = @product_id";
+        const query = "SELECT * FROM vw_categories WHERE id = @category_id AND status_id = 1 FOR JSON PATH, WITHOUT_ARRAY_WRAPPER";
         const request = await pool.request();
         request.input("category_id", category_id);
         const result = await request.query(query);
-        return result.recordset;
+        console.log(result.recordset);
+        return jsonParse(result);
+
     } catch (error) {
         throw error;
     }
@@ -51,8 +53,8 @@ export async function remove(status_id, category_id){
     try{
         const request = await pool.request();
         request.input("status_id", status_id);
-        request.input("category_id", category_id);
-        await request.eddecute("sp_upadte_products_categories_status");
+        request.input("products_categories_id", category_id);
+        await request.execute("sp_update_products_categories_status");
     } catch (error) {
         throw error;
     }
