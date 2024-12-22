@@ -8,7 +8,7 @@ import { appConfig } from "../config/app_config.js";
  * @returns {object} - Status code and message
  */
 export default (req, res, next) => {
-  console.log(req.headers);
+ 
   const token = req.headers.authorization;
   if (!token) {
     return res.status(401).json({ message: "Token not provided" });
