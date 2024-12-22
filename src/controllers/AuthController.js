@@ -7,7 +7,7 @@ export async function login(req, res, next) {
   const { email, password } = req.body;
 
   const user = await findBy("email", email);
-  console.log(user);
+
   try {
     if (!user || user["status"]["name"].toLowerCase() === "inactivo") {
       throw { message: "User not found", status: 404 };

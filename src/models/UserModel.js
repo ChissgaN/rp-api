@@ -1,12 +1,10 @@
 import { pool } from "../libs/db_conn.js";
-
+import { jsonParse } from "../helpers/JsonParse.js";
 export async function select() {
   try {
     const query = "SELECT * FROM vw_users for json path";
     const result = await pool.request().query(query);
-    const values = result.recordset[0];
-    const key = Object.keys(values)[0];
-    return JSON.parse(values[key]);
+    return jsonParse(result);
   } catch (error) {
     throw error;
   }
@@ -14,14 +12,13 @@ export async function select() {
 
 export async function find(user_id) {
   try {
-    const query = `Select * From vw_users Where id = @user_id for json path, without_array_wrapper`;
+    const query = `SELECT * FROM vw_users WHERE id = @user_id for json path, without_array_wrapper`;
 
     const request = await pool.request();
     request.input("user_id", user_id);
     const result = await request.query(query);
-    const values = result.recordset[0];
-    const key = Object.keys(values)[0];
-    return  JSON.parse(values[key]);
+    return jsonParse(result);
+
   } catch (error) {
     throw error;
   }
