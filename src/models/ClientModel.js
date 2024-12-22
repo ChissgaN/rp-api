@@ -2,7 +2,7 @@ import { pool } from "../libs/db_conn.js";
 
 export async function select(){
     try{
-        const query = "SELECT * FROM client";
+        const query = "SELECT * FROM clients";
         console.log(query);
         const result = await pool.request().query(query);
         return result.recordset;
@@ -13,11 +13,11 @@ export async function select(){
 
 export async function find(client_id){
     try{
-        const query = "SELECT * FROM client WHERE id = @client_id";
+        const query = "SELECT * FROM clients WHERE id = @client_id";
         const request = await pool.request();
         request.input("client_id", client_id);
         const result = await request.query(query);
-        return result.recordset;
+        return result.recordset[0];
     } catch (error) {
         throw error;
     }
